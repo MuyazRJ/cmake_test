@@ -1,0 +1,59 @@
+{
+    "version": 5,
+    "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 29,
+      "patch": 0
+    },
+    "configurePresets": [
+      {
+        "name": "default",
+        "hidden": true,
+        "generator": "Unix Makefiles",
+        "binaryDir": "${sourceDir}/build",
+        "cacheVariables": {
+          "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+        }
+      },
+      {
+        "name": "debug",
+        "inherits": "default",
+        "description": "Debug build with assertions enabled",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Debug",
+          "ENABLE_ASSERTIONS": "YES",
+          "CMAKE_VERBOSE_MAKEFILE": "ON"
+        }
+      },
+      {
+        "name": "release",
+        "inherits": "default",
+        "description": "Release build with optimizations enabled",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "ENABLE_ASSERTIONS": "NO"
+        }
+      }
+    ],
+    "buildPresets": [
+      {
+        "name": "default",
+        "hidden": true,
+        "configurePreset": "default"
+      },
+      {
+        "name": "debug",
+        "configurePreset": "debug",
+        "description": "Build the Debug configuration",
+        "verbose": true,
+        "jobs": 4
+      },
+      {
+        "name": "release",
+        "configurePreset": "release",
+        "description": "Build the Release configuration",
+        "jobs": 4
+      }
+    ]
+  }
+  
