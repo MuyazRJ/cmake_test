@@ -29,3 +29,6 @@ function(replace_py_with_pyc input_files output_files)
     # Return the list of .pyc files
     set(${output_files} ${${output_files}} PARENT_SCOPE)
 endfunction()
+
+# Use the library file path
+#set(LIBRARY_PATH $<TARGET_FILE:MyLibrary>)
