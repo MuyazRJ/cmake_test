@@ -36,14 +36,9 @@ add_custom_command(
 )
 
 add_custom_target(
-    f2py_compile 
+    f2py_compile ALL
+    COMMAND PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR} python3 -m add_numbers
     DEPENDS ${PY_OUTPUT}
 )
 
-add_custom_target(
-    compile_py ALL
-    COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/test.py
-    DEPENDS f2py_compile
-    COMMENT "Compiling test.py"
-)
 
