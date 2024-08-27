@@ -30,5 +30,8 @@ function(replace_py_with_pyc input_files output_files)
     set(${output_files} ${${output_files}} PARENT_SCOPE)
 endfunction()
 
-# Use the library file path
-#set(LIBRARY_PATH $<TARGET_FILE:MyLibrary>)
+add_custom_target(
+    dv ALL
+    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/src python3 -m testi 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
