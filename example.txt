@@ -105,3 +105,14 @@ add_custom_target(
     COMMAND ${CMAKE_COMMAND} -E remove "${SOURCE_DIR}/your_file"
     COMMENT "Deleting file from source directory after processing"
 )
+
+
+
+# Add a custom command to move files
+add_custom_command(
+    OUTPUT ${DEST_FILES}
+    COMMAND ${CMAKE_COMMAND} -E rename ${SOURCE_DIR}/file1.txt ${BUILD_DIR}/file1.txt
+    COMMAND ${CMAKE_COMMAND} -E rename ${SOURCE_DIR}/file2.txt ${BUILD_DIR}/file2.txt
+    DEPENDS ${FILES_TO_MOVE}
+    COMMENT "Moving files from source to build directory"
+)
