@@ -1,0 +1,60 @@
+The install() command in CMake is used within the CMakeLists.txt file to specify how and where to install the build products, such as executables, libraries, headers, and other resources. This command helps define installation rules for your project.
+
+Basic Syntax
+Here's the basic syntax for the install() command:
+
+cmake
+Copy code
+install(TARGETS target1 target2 ...
+        [EXPORT <export-name>]
+        [RUNTIME DESTINATION <dir>]
+        [LIBRARY DESTINATION <dir>]
+        [ARCHIVE DESTINATION <dir>]
+        [INCLUDES DESTINATION <dir>]
+        [PUBLIC_HEADER DESTINATION <dir>]
+        [PRIVATE_HEADER DESTINATION <dir>])
+        
+install(FILES file1 file2 ...
+        DESTINATION <dir> 
+        [PERMISSIONS permissions]
+        [CONFIGURATIONS config1 config2 ...]
+        [COMPONENT component]
+        [RENAME <name>])
+        
+install(DIRECTORY source_dir1 source_dir2 ...
+        DESTINATION <dir> 
+        [FILES_MATCHING [PATTERN <pattern>]]
+        [PERMISSIONS permissions]
+        [CONFIGURATIONS config1 config2 ...]
+        [COMPONENT component]
+        [EXCLUDE_FROM_ALL])
+Installing Targets
+To install a target (like an executable or a library), use the install(TARGETS ...) command:
+
+cmake
+Copy code
+# Install an executable or library
+install(TARGETS my_executable my_library
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib/static)
+RUNTIME DESTINATION is used for executables.
+LIBRARY DESTINATION is used for shared libraries.
+ARCHIVE DESTINATION is used for static libraries.
+Installing Files
+To install specific files (like headers or configuration files), use the install(FILES ...) command:
+
+cmake
+Copy code
+# Install header files
+install(FILES my_header1.h my_header2.h
+        DESTINATION include/my_project)
+Installing Directories
+To install a whole directory and its contents, use the install(DIRECTORY ...) command:
+
+cmake
+Copy code
+# Install a directory of headers
+install(DIRECTORY include/
+        DESTINATION include/my_project
+        FILES_MATCHING PATTERN "*.h")
