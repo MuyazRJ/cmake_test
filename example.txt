@@ -58,3 +58,50 @@ Copy code
 install(DIRECTORY include/
         DESTINATION include/my_project
         FILES_MATCHING PATTERN "*.h")
+
+
+
+
+
+You can use CMake variables to specify the paths of your source and build directories. Make sure you adjust these paths according to your project structure.
+
+cmake
+Copy code
+set(SOURCE_DIR "${CMAKE_SOURCE_DIR}")
+set(BUILD_DIR "${CMAKE_BINARY_DIR}")
+Add a custom command to copy the file:
+
+Use add_custom_command to copy the file from the build directory to the source directory. You can use COMMAND to specify the cp (or equivalent) command for copying files.
+
+cmake
+Copy code
+add_custom_command(
+    OUTPUT "${SOURCE_DIR}/your_file"
+    COMMAND ${CMAKE_COMMAND} -E copy "${BUILD_DIR}/your_file" "${SOURCE_DIR}/your_file"
+    DEPENDS "${BUILD_DIR}/your_file"
+    COMMENT "Copying file from build directory to source directory"
+)
+Add a custom command to run the Python script:
+
+Use another add_custom_command to run your Python script on the copied file.
+
+cmake
+Copy code
+add_custom_command(
+    TARGET your_target
+    POST_BUILD
+    COMMAND ${Python_EXECUTABLE} "${CMAKE_SOURCE_DIR}/your_script.py" "${SOURCE_DIR}/your_file"
+    DEPENDS "${SOURCE_DIR}/your_file"
+    COMMENT "Running Python script on the copied file"
+)
+Add a custom target to delete the file:
+
+You can create a custom target to delete the file after processing it with the Python script.
+
+cmake
+Copy code
+add_custom_target(
+    clean_file
+    COMMAND ${CMAKE_COMMAND} -E remove "${SOURCE_DIR}/your_file"
+    COMMENT "Deleting file from source directory after processing"
+)
