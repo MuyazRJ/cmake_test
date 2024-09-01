@@ -12,6 +12,6 @@ program main
     sum = add(x, y)
     product = multiply(x, y)
 
-    print *, "Sum: ", sum
-    print *, "Product: ", product
+    print *, "Sum:: ", sum
+    print *, "Product:: ", product
 end program main
