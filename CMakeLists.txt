@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.29.0)
 project(test LANGUAGES Fortran CXX)
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 set(MODULE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/modules)
 
-#add_subdirectory(fort_modules)
-#add_subdirectory(src)
+add_subdirectory(fort_modules)
+add_subdirectory(src)
 
 function(tester arg1 arg2 arg3)
     message("Argument 1: ${arg1}")
@@ -29,9 +30,3 @@ function(replace_py_with_pyc input_files output_files)
     # Return the list of .pyc files
     set(${output_files} ${${output_files}} PARENT_SCOPE)
 endfunction()
-
-add_custom_target(
-    dv ALL
-    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/src python3 -m testi 
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src
-)

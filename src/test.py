@@ -2,7 +2,6 @@ import sys, os
 
 # Print the list of directories Python searches
 print("Python is searching the following directories:\n")
-
 print('\n'.join(sys.path) + '\n')
 
 if "VIRTUAL_ENV" in os.environ:
