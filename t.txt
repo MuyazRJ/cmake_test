@@ -160,3 +160,30 @@ ext = Extension('your_extension',
                 runtime_library_dirs=['/path/to/mkl/lib'])
 
 setup(ext_modules=[ext])
+
+
+from setuptools import setup, Extension
+from Cython.Build import cythonize
+import numpy
+
+# Define the path to MKL libraries
+mkl_libs = ['/opt/intel/mkl/lib/intel64']
+mkl_libs_flags = ['-lmkl_rt']  # Link against the MKL runtime library
+
+# Define the extension module
+ext_modules = [
+    Extension(
+        'my_module',
+        sources=['my_module.pyx'],
+        include_dirs=[numpy.get_include(), '/opt/intel/mkl/include'],
+        library_dirs=mkl_libs,
+        libraries=['mkl_rt'],
+        extra_compile_args=['-O3'],
+        extra_link_args=mkl_libs_flags
+    )
+]
+
+# Set up the module
+setup(
+    ext_modules=cythonize(ext_modules),
+)
