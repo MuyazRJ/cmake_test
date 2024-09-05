@@ -78,6 +78,15 @@ The error message indicating that "no file or directory exists Lib.mkl.core.1" s
 This typically occurs when the required MKL libraries are not in the LD_LIBRARY_PATH or the environment is not correctly set up to locate them. MKL is often used for numerical computations, and it is a common dependency for libraries like NumPy, SciPy, or other performance-oriented Python packages.
 
 Here’s how you can troubleshoot and resolve this issue:
+# Check if GCC is available by looking for a common GCC environment variable
+find_program(GCC_FOUND gcc)
+
+# Check if Intel compiler is available
+find_program(INTEL_FOUND icc)
+
+if (NOT GCC_FOUND AND NOT INTEL_FOUND)
+    message(FATAL_ERROR "No suitable compiler found. Please load a compiler module (e.g., module load gcc or module load intel).")
+endif()
 
 1. Check if MKL is Installed
 If you are using a distribution like Anaconda or Intel Python, MKL is often included. To check if MKL is installed, you can search for the MKL package:
