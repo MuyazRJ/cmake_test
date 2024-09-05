@@ -1,3 +1,4 @@
 [submodule "test"]
 	path = test
 	url = git@github.com:MuyazRJ/Neural-Network-From-Scratch.git
+	branch = test
