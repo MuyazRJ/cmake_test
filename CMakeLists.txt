@@ -19,10 +19,6 @@ function(install_py_files directory)
     install(FILES ${PY_FILES} DESTINATION ${relative_path})
 endfunction()
 
-install_py_files(${CMAKE_SOURCE_DIR})
-install_py_files(${CMAKE_SOURCE_DIR}/tools)
-install_py_files(${CMAKE_SOURCE_DIR}/tools/temps)
-
 function(install_py_files)
     foreach(directory IN LISTS ARGV)  # Iterate over all passed directories
         # Check if the provided directory is the root directory
@@ -39,3 +35,8 @@ function(install_py_files)
         install(FILES ${PY_FILES} DESTINATION ${relative_path})
     endforeach()
 endfunction()
+
+# Install the whole src directory, including subdirectories like tools
+install(DIRECTORY ${CMAKE_SOURCE_DIR}
+        DESTINATION .
+        FILES_MATCHING PATTERN "*.py" PATTERN "*.so")
