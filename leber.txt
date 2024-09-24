@@ -34,3 +34,4 @@ deploy:
     - echo "Deploying your package"
     - cd $BUILD_DIR
     - cmake --install . --prefix /path/to/install/directory
+    - cd $CI_PROJECT_DIR/$BUILD_DIR  # Change to the build directory for deployment
