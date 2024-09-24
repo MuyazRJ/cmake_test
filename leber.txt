@@ -1,0 +1,36 @@
+vstages:
+  - build
+  - test
+  - deploy
+
+variables:
+  BUILD_DIR: build
+  SOURCE_DIR: src
+  TEST_DIR: test
+
+before_script:
+  # Load necessary modules
+  - module load python/3.8
+  - module load mpi
+  - module load gcc
+
+build:
+  stage: build
+  script:
+    - mkdir -p $BUILD_DIR
+    - cd $BUILD_DIR
+    - cmake ..
+    - cmake --build .
+
+test:
+  stage: test
+  script:
+    - cd $BUILD_DIR
+    - ctest --output-on-failure
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying your package"
+    - cd $BUILD_DIR
+    - cmake --install . --prefix /path/to/install/directory
