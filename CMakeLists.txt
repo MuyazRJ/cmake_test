@@ -3,10 +3,6 @@ project(test LANGUAGES Fortran CXX)
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 set(MODULE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/modules)
-
-add_subdirectory(fort_modules)
-add_subdirectory(src)
-
 function(tester arg1 arg2 arg3)
     message("Argument 1: ${arg1}")
     message("Argument 2: ${arg2}")
@@ -30,3 +26,9 @@ function(replace_py_with_pyc input_files output_files)
     # Return the list of .pyc files
     set(${output_files} ${${output_files}} PARENT_SCOPE)
 endfunction()
+enable_testing()
+
+# Correct test definition with WORKING_DIRECTORY properly specified
+add_test(NAME pytest_tests
+         COMMAND python3 -m pytest --cache_dir=${CMAKE_BINARY_DIR}/pytest_cache --junitxml=${CMAKE_BINARY_DIR}/pytest_results.xml test/src
+         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})

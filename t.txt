@@ -196,3 +196,31 @@ ext_modules = [
 setup(
     ext_modules=cythonize(ext_modules),
 )
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mkdir -p build/dir
+    - make  # Your build steps
+  artifacts:
+    paths:
+      - build/dir/  # Save build artifacts if needed
+
+test:
+  stage: test
+  script:
+    - pytest --junitxml=build/dir/report-1.xml  # Generate multiple reports
+    - pytest --junitxml=build/dir/report-2.xml
+    - # You can generate more reports or split them up based on the tests
+  artifacts:
+    when: always  # Ensure the reports are saved even if the tests fail
+    paths:
+      - build/dir/  # Save the entire directory containing XML reports
+    reports:
+      junit: "build/dir/*.xml"  # Specify all XML files in the directory using a wildcard
+
