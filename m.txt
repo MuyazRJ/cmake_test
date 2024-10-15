@@ -1,0 +1,131 @@
+find_package(MKL REQUIRED)
+
+if (MKL_FOUND)
+    get_target_property(MKL_INCLUDE_DIRS MKL::MKL INTERFACE_INCLUDE_DIRECTORIES)
+    message(STATUS "MKL include directories: ${MKL_INCLUDE_DIRS}")
+endif()
+ if (MKL_FOUND)
+    get_target_property(MKL_LIBS_RELEASE MKL::MKL IMPORTED_LOCATION_RELEASE)
+    get_target_property(MKL_LIBS_DEBUG MKL::MKL IMPORTED_LOCATION_DEBUG)
+    message(STATUS "MKL release library location: ${MKL_LIBS_RELEASE}")
+    message(STATUS "MKL debug library location: ${MKL_LIBS_DEBUG}")
+endif()
+if (MKL_FOUND)
+    get_target_property(MKL_LIBS MKL::MKL IMPORTED_LOCATION)
+    message(STATUS "MKL library location: ${MKL_LIBS}")
+endif()
+]execute_process(
+    COMMAND git config --get remote.origin.url
+    OUTPUT_VARIABLE GITLAB_URL
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+message(STATUS "GitLab repository URL: ${GITLAB_URL}")
+# CMakeLists.txt
+
+# Retrieve the current git commit hash
+execute_process(
+    COMMAND git rev-parse HEAD
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+)
+
+# Print the commit hash
+message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+
+
+# Function to extract submodule URLs
+function(print_submodule_urls)
+    file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" GITMODULES_CONTENT)
+    
+    # Regular expression to find URLs in the .gitmodules file
+    string(REGEX MATCHALL "url = ([^\n]*)" MATCHED_URLS "${GITMODULES_CONTENT}")
+    
+    foreach(URL ${MATCHED_URLS})
+        # Strip out the "url = " part and get just the URL
+        string(REGEX REPLACE "url = " "" SUBMODULE_URL "${URL}")
+        
+        # Print the URL
+        message(STATUS "Submodule URL: ${SUBMODULE_URL}")
+    endforeach()
+endfunction()
+
+# Call the function
+print_submodule_urls()
+
+# CMakeLists.txt
+
+# Function to extract submodule URLs and check their status
+function(check_submodule_status)
+    # Read the .gitmodules file
+    file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" GITMODULES_CONTENT)
+    
+    # Regular expression to find URLs in the .gitmodules file
+    string(REGEX MATCHALL "path = ([^\n]*)" MATCHED_PATHS "${GITMODULES_CONTENT}")
+    
+    foreach(PATH ${MATCHED_PATHS})
+        # Extract the path of the submodule
+        string(REGEX REPLACE "path = " "" SUBMODULE_PATH "${PATH}")
+
+        # Check the status of the submodule
+        execute_process(
+            COMMAND git -C "${CMAKE_SOURCE_DIR}/${SUBMODULE_PATH}" status --porcelain
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            OUTPUT_VARIABLE STATUS_OUTPUT
+            ERROR_QUIET
+        )
+
+        # Determine if the submodule is clean or dirty
+        if(STATUS_OUTPUT STREQUAL "")
+            message(STATUS "Submodule '${SUBMODULE_PATH}' is clean.")
+        else()
+            message(STATUS "Submodule '${SUBMODULE_PATH}' is dirty.")
+        endif()
+    endforeach()
+endfunction()
+
+# Call the function
+check_submodule_status()
+
+
+# CMakeLists.txt
+
+# Initialize the build_stamp variable
+set(build_stamp "")
+
+# Function to extract submodule URLs and check their status
+function(check_submodule_status)
+    # Read the .gitmodules file
+    file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" GITMODULES_CONTENT)
+
+    # Regular expression to find URLs and paths in the .gitmodules file
+    string(REGEX MATCHALL "path = ([^\n]*)" MATCHED_PATHS "${GITMODULES_CONTENT}")
+
+    foreach(PATH ${MATCHED_PATHS})
+        # Extract the path of the submodule
+        string(REGEX REPLACE "path = " "" SUBMODULE_PATH "${PATH}")
+
+        # Check the status of the submodule
+        execute_process(
+            COMMAND git -C "${CMAKE_SOURCE_DIR}/${SUBMODULE_PATH}" status --porcelain
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            OUTPUT_VARIABLE STATUS_OUTPUT
+            ERROR_QUIET
+        )
+
+        # Determine if the submodule is clean or dirty
+        if(STATUS_OUTPUT STREQUAL "")
+            set(STATUS "clean")
+        else()
+            set(STATUS "dirty")
+        endif()
+
+        # Append the submodule status to the build_stamp variable
+        set(build_stamp "${build_stamp}${SUBMODULE_PATH}: ${STATUS}\n" PARENT_SCOPE)
+    endforeach()
+endfunction()
+
+# Call the function
+check_submodule_status()
+
+# Print the final build_stamp
+message(STATUS "Build Stamp:\n${build_stamp}")

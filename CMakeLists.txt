@@ -3,32 +3,39 @@ project(test LANGUAGES Fortran CXX)
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 set(MODULE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/modules)
-function(tester arg1 arg2 arg3)
-    message("Argument 1: ${arg1}")
-    message("Argument 2: ${arg2}")
-    message("Argument 3: ${arg3}")
+
+execute_process(
+    COMMAND git config --get remote.origin.url
+    OUTPUT_VARIABLE GITLAB_URL
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+message(STATUS "GitLab repository URL: ${GITLAB_URL}")
+
+# Retrieve the current git commit hash
+execute_process(
+    COMMAND git rev-parse HEAD
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+)
+
+# Print the commit hash
+message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")# CMakeLists.txt
+
+# Function to extract submodule URLs
+function(print_submodule_urls)
+    file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" GITMODULES_CONTENT)
     
-    # Split the string in arg3 into a list of source files
-    separate_arguments(SOURCE_sFILES UNIX_COMMAND "${arg3}")
-    message(${ARGN})
-
-    add_executable(pro ${SOURCE_sFILES})
-endfunction()
-
-function(replace_py_with_pyc input_files output_files)
-    set(${output_files})  # Initialize an empty list for the output files
-
-    foreach(file ${input_files})
-        string(REPLACE ".py" ".pyc" replaced_file ${file})
-        list(APPEND ${output_files} ${replaced_file})
+    # Regular expression to find URLs in the .gitmodules file
+    string(REGEX MATCHALL "url = ([^\n]*)" MATCHED_URLS "${GITMODULES_CONTENT}")
+    
+    foreach(URL ${MATCHED_URLS})
+        # Strip out the "url = " part and get just the URL
+        string(REGEX REPLACE "url = " "" SUBMODULE_URL "${URL}")
+        
+        # Print the URL
+        message(STATUS "Submodule URL: ${SUBMODULE_URL}")
     endforeach()
-
-    # Return the list of .pyc files
-    set(${output_files} ${${output_files}} PARENT_SCOPE)
 endfunction()
-enable_testing()
 
-# Correct test definition with WORKING_DIRECTORY properly specified
-add_test(NAME pytest_tests
-         COMMAND python3 -m pytest --cache_dir=${CMAKE_BINARY_DIR}/pytest_cache --junitxml=${CMAKE_BINARY_DIR}/pytest_results.xml test/src
-         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+# Call the function
+print_submodule_urls()
