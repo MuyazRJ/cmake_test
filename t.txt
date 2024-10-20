@@ -199,3 +199,57 @@ setup(
 
 git submodule update --init --remote
 
+# CMakeLists.txt
+cmake_minimum_required(VERSION 3.10)
+project(CheckSubmodules)
+
+# Function to print submodule info and status
+function(print_submodule_status)
+    # Get submodule info from .gitmodules
+    execute_process(COMMAND git config --file .gitmodules --name-only --get-regexp path
+                    OUTPUT_VARIABLE submodule_paths_raw
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    # Split the paths by newline into a list
+    string(REPLACE "\n" ";" submodule_paths "${submodule_paths_raw}")
+
+    # Loop over each submodule path
+    foreach(path ${submodule_paths})
+        # Get submodule name and URL
+        string(REPLACE "submodule." "" module_name "${path}")
+        string(REPLACE ".path" "" module_name "${module_name}")
+        
+        # Get the actual path of the submodule
+        execute_process(COMMAND git config --file .gitmodules --get "${path}"
+                        OUTPUT_VARIABLE submodule_path
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        
+        # Get the URL of the submodule
+        execute_process(COMMAND git config --file .gitmodules --get submodule.${module_name}.url
+                        OUTPUT_VARIABLE submodule_url
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+        # Check if the submodule is clean or dirty
+        execute_process(COMMAND git submodule status "${submodule_path}"
+                        OUTPUT_VARIABLE submodule_status_raw
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        
+        # Determine if it's clean or dirty
+        if(submodule_status_raw MATCHES "^-[a-z0-9]+ ")
+            set(submodule_status "dirty")
+        else()
+            set(submodule_status "clean")
+        endif()
+
+        # Print the submodule name, URL, and status
+        message(STATUS "Submodule: ${module_name}")
+        message(STATUS "    Path: ${submodule_path}")
+        message(STATUS "    URL:  ${submodule_url}")
+        message(STATUS "    Status: ${submodule_status}")
+    endforeach()
+endfunction()
+
+# Call the function to print submodule statuses
+print_submodule_status()
+
+
