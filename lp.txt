@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.10)
+
+# Function to process each word
+function(print_words input_string)
+    # Replace spaces with semicolons to split the string into a list
+    string(REPLACE " " ";" word_list "${input_string}")
+    
+    # Loop through each word in the list
+    foreach(word IN LISTS word_list)
+        message(STATUS "Word: ${word}")
+    endforeach()
+endfunction()
+
+# Example usage
+set(my_string "apple banana tree")
+print_words(${my_string})
+ 
