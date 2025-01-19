@@ -8,3 +8,4 @@ set(PLUGIN_DIR "${CMAKE_SOURCE_DIR}/plugin")
 add_subdirectory(${CMAKE_SOURCE_DIR}/plugin)
 
 
+include(cmake/compiler.cmake)
