@@ -1,0 +1,183 @@
+\documentclass[a4paper,12pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Page layout
+\geometry{a4paper, margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Custom code listing style
+\definecolor{codebg}{RGB}{245, 245, 245} % Light gray background
+\definecolor{keyword}{RGB}{0, 0, 255}    % Blue for keywords
+\definecolor{comment}{RGB}{0, 128, 0}    % Green for comments
+\definecolor{string}{RGB}{163, 21, 21}   % Red for strings
+\definecolor{number}{RGB}{128, 0, 128}   % Purple for numbers
+
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=4,
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    keywordstyle=\color{keyword},
+    commentstyle=\color{comment},
+    stringstyle=\color{string},
+    numberstyle=\color{number},
+    morekeywords={x, command1, command2, --option}, % Add custom keywords
+    literate=*{0}{{{\color{number}0}}}{1}%
+             {1}{{{\color{number}1}}}{1}%
+             {2}{{{\color{number}2}}}{1}%
+             {3}{{{\color{number}3}}}{1}%
+             {4}{{{\color{number}4}}}{1}%
+             {5}{{{\color{number}5}}}{1}%
+             {6}{{{\color{number}6}}}{1}%
+             {7}{{{\color{number}7}}}{1}%
+             {8}{{{\color{number}8}}}{1}%
+             {9}{{{\color{number}9}}}{1}%
+             {:}{{{\color{keyword}:}}}{1}%
+             {=}{{{\color{keyword}=}}}{1}%
+             {-}{{{\color{keyword}-}}}{1}%
+             {>}{{{\color{keyword}>}}}{1},
+}
+
+% Document information
+\title{User Documentation for X}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge\bfseries User Documentation for X\par}
+    \vspace{1.5cm}
+    {\Large\itshape Your Name\par}
+    \vspace{1.5cm}
+    {\large \today\par}
+    \vfill
+    \includegraphics[width=0.4\textwidth]{logo.png} % Add your software logo here
+    \vfill
+    {\large Version 1.0\par}
+\end{titlepage}
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% Introduction
+\section{Introduction}
+\subsection{Overview}
+X is a powerful software designed to [brief description of what your software does]. This document provides a comprehensive guide on how to install, configure, and use X effectively.
+
+\subsection{Features}
+\begin{itemize}
+    \item Feature 1
+    \item Feature 2
+    \item Feature 3
+\end{itemize}
+
+% Installation
+\section{Installation}
+\subsection{System Requirements}
+Before installing X, ensure that your system meets the following requirements:
+\begin{itemize}
+    \item Operating System: [e.g., Windows 10, macOS 11, Ubuntu 20.04]
+    \item RAM: [e.g., 4GB or more]
+    \item Disk Space: [e.g., 500MB of free space]
+\end{itemize}
+
+\subsection{Installation Steps}
+Follow these steps to install X on your system:
+\begin{enumerate}
+    \item Download the installer from [website URL].
+    \item Run the installer and follow the on-screen instructions.
+    \item Once the installation is complete, launch X from the Start Menu or Applications folder.
+\end{enumerate}
+
+% Usage
+\section{Usage}
+\subsection{Getting Started}
+To start using X, follow these steps:
+\begin{enumerate}
+    \item Open X from the Start Menu or Applications folder.
+    \item Create a new project or open an existing one.
+    \item Use the toolbar and menus to access various features.
+\end{enumerate}
+
+\subsection{Basic Commands}
+Here are some basic commands you can use in X:
+\begin{lstlisting}[language=bash]
+# Example command 1
+x command1 --option
+
+# Example command 2
+x command2 --option
+\end{lstlisting}
+
+% Configuration
+\section{Configuration}
+\subsection{Setting Preferences}
+You can configure X by navigating to the Preferences menu:
+\begin{enumerate}
+    \item Go to \texttt{File > Preferences}.
+    \item Adjust the settings according to your needs.
+    \item Click \texttt{Save} to apply the changes.
+\end{enumerate}
+
+\subsection{Configuration File}
+X can also be configured using a configuration file located at \texttt{/path/to/config/file}. Here is an example configuration:
+\begin{lstlisting}
+[General]
+setting1 = value1
+setting2 = value2
+\end{lstlisting}
+
+% Troubleshooting
+\section{Troubleshooting}
+\subsection{Common Issues}
+\begin{itemize}
+    \item \textbf{Issue 1}: Description of the issue and how to resolve it.
+    \item \textbf{Issue 2}: Description of the issue and how to resolve it.
+\end{itemize}
+
+\subsection{Getting Help}
+If you encounter any issues not covered in this document, please contact our support team at \href{mailto:support@x.com}{support@x.com}.
+
+% Appendix
+\section{Appendix}
+\subsection{Glossary}
+\begin{itemize}
+    \item \textbf{Term 1}: Definition of term 1.
+    \item \textbf{Term 2}: Definition of term 2.
+\end{itemize}
+
+\subsection{Additional Resources}
+\begin{itemize}
+    \item \href{https://www.x.com/documentation}{Official Documentation}
+    \item \href{https://www.x.com/forum}{Community Forum}
+\end{itemize}
+
+\end{document}
