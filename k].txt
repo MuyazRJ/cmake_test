@@ -1,9 +1,7 @@
-Briefly (in around 200 words) describe your roles and responsibilities during your placement. What projects did you work on? What were the main technologies that you used?
-1.	I have worked on several key projects, primarily focused on software development. One of my main responsibilities involved working on a project that previously used MakeFiles but was messy and difficult to maintain. I took the initiative to convert the project to use CMake, which helped streamline the build and deployment process. I also set up continuous integration (CI) pipelines with GitLab, integrating pytest for running tests and CTest for test automation.
-Additionally, I worked on a project aimed at converting Python simulation codes to C++ to improve execution speed. The goal was to make the simulations run faster by leveraging the performance benefits of C++. I successfully converted the Python files to C++ while applying good C++ practices, including object-oriented programming (OOP), memory management, and optimising performance. This significantly improved the efficiency of the simulations.
-Overall, I worked extensively with CMake, Python, C++, and GitLab CI tools, gaining hands-on experience with debugging, version control, and automation. This experience allowed me to improve my programming skills and ability to manage complex workflows while solving technical challenges.
-Are there any projects you are particularly proud of or new skills learnt. Again, no more than 200 words
-2.	I am particularly proud of my work on converting a project from MakeFiles to CMake. This was a challenging task because the original build system was messy and difficult to maintain. Despite these challenges, I successfully restored the software to a working state and went beyond expectations by completing additional tasks before the December deadline. Throughout this process, I maintained an effective network of contacts, making sure I had the necessary support to overcome obstacles. This experience not only improved the project's structure but also strengthened my ability to manage deadlines and collaborate effectively with others.
+spack develop <package-name>@<version> --path /path/to/your/local/clone
 
-Even Better If (EBI) What areas have you and your manager identified for improvement in the future?
-3.	Since my background is in computer science and I was originally hired as a data scientist, I feel that one area for improvement would be expanding the range of projects and tasks I get involved in across the business. While I've gained a lot of software engineering experience, I think branching out into different areas would help me grow and develop new skills. It would also give me a better understanding of how different teams work and how the business operates as a whole, allowing me to contribute more effectively in the future
+develop:
+  mypackage:
+    path: /home/user/dev/mypackage
+
+spack develop -d /path/to/local/code <spec>
