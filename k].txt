@@ -5,3 +5,5 @@ develop:
     path: /home/user/dev/mypackage
 
 spack develop -d /path/to/local/code <spec>
+
+https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTY2ZGU0NGYtZTNkMS00MmZjLWIzZjgtZjQ4NTYyZTI3MmNh%40thread.v2/0?context=%7b%22Tid%22%3a%22c152cb07-614e-4abb-818a-f035cfa91a77%22%2c%22Oid%22%3a%223f339f16-0a79-450d-b107-ef2ec5ab9e07%22%7d
