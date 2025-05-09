@@ -7,17 +7,7 @@ set(MODULE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/modules)
 add_subdirectory(fort_modules)
 add_subdirectory(src)
 
-function(tester arg1 arg2 arg3)
-    message("Argument 1: ${arg1}")
-    message("Argument 2: ${arg2}")
-    message("Argument 3: ${arg3}")
-    
-    # Split the string in arg3 into a list of source files
-    separate_arguments(SOURCE_sFILES UNIX_COMMAND "${arg3}")
-    message(${ARGN})
-
-    add_executable(pro ${SOURCE_sFILES})
-endfunction()
+message(GELO)
 
 function(replace_py_with_pyc input_files output_files)
     set(${output_files})  # Initialize an empty list for the output files
