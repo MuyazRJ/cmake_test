@@ -1,49 +1,11 @@
-from spack import *
-import os
+cmake_minimum_required(VERSION 3.20)
+project(fortran_python LANGUAGES Fortran C)
 
-class Ando(Package):
-    """Your package description"""
+# 1. Ask CMake for a Python interpreter (and where to install the module)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
-    homepage = "https://example.com"
-    version('1.0', sha256='...')  # Replace with actual version and checksum
+# 2. Base name of the extension module
+set(MODNAME _mycode)
 
-    # Define variants for the debug and production presets
-    variant('preset', default='debug', values=('debug', 'production'), description='Choose build preset')
-
-    depends_on('cmake@3.19:', type='build')  # Require a version of CMake
-    depends_on('python@3.11')  # Your Python requirement
-
-    def cmake_args(self):
-        """Set CMake arguments based on the variant selected"""
-        preset = self.spec.variants['preset'].value
-        return ['--preset', preset]  # Pass the preset selected by the user
-
-    def install(self, spec, prefix):
-        # Step 1: Configure the build using the selected preset
-        preset = spec.variants['preset'].value
-        cmake_args = self.cmake_args()
-        cmake_args.append('..')  # Point to the source directory (adjust if needed)
-
-        # Run cmake to configure
-        with working_dir(self.build_directory):
-            # Setup CMake with the selected preset
-            print(f"Configuring with preset {preset}...")
-            cmake(*cmake_args)
-
-            # Step 2: Build the project
-            print(f"Building with preset {preset}...")
-            build_args = ['--preset', preset]
-            cmake('--build', '.', *build_args)
-
-            # Step 3: Run tests
-            print("Running tests with ctest...")
-            ctest()
-
-            # Step 4: Install the project
-            print("Installing...")
-            cmake('--install', '.')
-
-    @property
-    def build_directory(self):
-        """Override to specify the build directory"""
-        return join_path(self.stage.path, 'build')
+# 3. Build the final file name:  _mycode${Python3_SOABI}
+set(EXT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${MODNAME}${Python3_SOABI}")
