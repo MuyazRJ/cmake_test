@@ -47,3 +47,17 @@ class Mysoftware(CMakePackage):
             ])
 
         return args
+
+
+
+
+packages:
+  all:
+    compiler: [gcc@13.2.0]   # use this compiler unless the spec says otherwise
+
+  gcc:                       # mark the system GCC as external
+    externals:
+    - spec: gcc@13.2.0
+      prefix: /sw/pkgs/gcc/13.2.0
+    buildable: False         # forbid Spack from building another one
+
