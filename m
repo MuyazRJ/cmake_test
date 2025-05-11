@@ -61,3 +61,32 @@ packages:
       prefix: /sw/pkgs/gcc/13.2.0
     buildable: False         # forbid Spack from building another one
 
+
+spack:
+  # 1. What you want Spack to build in this environment
+  specs:
+    # “%gcc@12.2.0” means “build with that compiler”
+    - hdf5@1.14.3  %gcc@12.2.0
+
+  # 2. Optionally make that compiler the default for *everything*,
+  #    so you don’t have to write “%gcc@12.2.0” on every spec.
+  packages:
+    all:
+      compiler: [gcc@12.2.0]
+
+  # 3. (Only needed if this compiler isn’t already in your
+  #    ~/.spack/linux/compilers.yaml.)  Tell Spack where the binaries live.
+  compilers:
+    - compiler:
+        spec: gcc@12.2.0
+        paths:
+          cc:  /usr/bin/gcc-12
+          cxx: /usr/bin/g++-12
+          f77: /usr/bin/gfortran-12
+          fc:  /usr/bin/gfortran-12
+        flags: {}
+        operating_system: ubuntu22.04   # adjust to match your host
+        target: x86_64
+        modules: []
+        environment: {}
+
